@@ -3,6 +3,16 @@ package chess
 type Color int
 
 const (
-	Black Color = iota
-	White
+	White Color = iota
+	Black
 )
+
+func (c Color) String() string {
+	switch c {
+	case Black:
+		return "Black"
+	case White:
+		return "White"
+	}
+	return "Invalid color"
+}

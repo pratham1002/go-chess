@@ -1,5 +1,13 @@
-package main;
+package main
+
+import (
+	"fmt"
+
+	"github.com/pratham1002/go-chess/chess"
+)
 
 func main() {
-	game := Chess();
+	game := chess.NewChess()
+
+	fmt.Println(game)
 }

@@ -1,8 +1,7 @@
 package chess
 
-import "./color"
-
-type Piece struct {
-	Color color.Color
-	Pos  Position
+type Piece interface {
+	IsLegalMove(pos Position) bool
+	Move(pos Position)
+	String() string
 }

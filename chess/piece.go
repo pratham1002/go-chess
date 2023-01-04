@@ -1,7 +1,7 @@
 package chess
 
 type Piece interface {
-	IsLegalMove(pos Position) bool
-	Move(pos Position)
+	getColor() Color
+	IsLegalMove(from Position, to Position, b Board) bool
 	String() string
 }

@@ -2,63 +2,38 @@ package chess
 
 type Knight struct {
 	Color Color
-	Pos   Position
 }
 
-func NewKnight(color Color, pos Position) *Knight {
+func NewKnight(color Color) *Knight {
 	return &Knight{
 		Color: color,
-		Pos:   pos,
 	}
 }
 
-func (k *Knight) IsLegalMove(pos Position) bool {
-	if !pos.isValid() {
-		return false
-	}
-
-	if k.Pos.Equals(&pos) {
-		return false
-	}
-
-	// check if the move is two squares in one direction and one square in the other
-	if k.Pos.X == pos.X-2 && k.Pos.Y == pos.Y-1 {
-		return true
-	}
-
-	if k.Pos.X == pos.X-2 && k.Pos.Y == pos.Y+1 {
-		return true
-	}
-
-	if k.Pos.X == pos.X+2 && k.Pos.Y == pos.Y-1 {
-		return true
-	}
-
-	if k.Pos.X == pos.X+2 && k.Pos.Y == pos.Y+1 {
-		return true
-	}
-
-	if k.Pos.X == pos.X-1 && k.Pos.Y == pos.Y-2 {
-		return true
-	}
-
-	if k.Pos.X == pos.X-1 && k.Pos.Y == pos.Y+2 {
-		return true
-	}
-
-	if k.Pos.X == pos.X+1 && k.Pos.Y == pos.Y-2 {
-		return true
-	}
-
-	if k.Pos.X == pos.X+1 && k.Pos.Y == pos.Y+2 {
-		return true
-	}
-
-	return false
+func (k *Knight) getColor() Color {
+	return k.Color
 }
 
-func (k *Knight) Move(pos Position) {
-	k.Pos = pos
+func (k *Knight) IsLegalMove(from Position, to Position, b Board) bool {
+	if from.X == to.X+1 && from.Y == to.Y+2 {
+		return true
+	} else if from.X == to.X+1 && from.Y == to.Y-2 {
+		return true
+	} else if from.X == to.X-1 && from.Y == to.Y+2 {
+		return true
+	} else if from.X == to.X-1 && from.Y == to.Y-2 {
+		return true
+	} else if from.X == to.X+2 && from.Y == to.Y+1 {
+		return true
+	} else if from.X == to.X+2 && from.Y == to.Y-1 {
+		return true
+	} else if from.X == to.X-2 && from.Y == to.Y+1 {
+		return true
+	} else if from.X == to.X-2 && from.Y == to.Y-1 {
+		return true
+	} else {
+		return false
+	}
 }
 
 func (k *Knight) String() string {

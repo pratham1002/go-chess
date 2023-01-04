@@ -1,67 +1,88 @@
 package chess
 
 type Board struct {
-	Pieces [8][8]Piece
+	Spots [8][8]*Spot
 }
 
 func NewBoard() *Board {
 	// Create the board
-	board := &Board{}
+	board := &Board{
+		Spots: [8][8]*Spot{},
+	}
+
+	// Create the spots
+	for i := 0; i < 8; i++ {
+		for j := 0; j < 8; j++ {
+			board.Spots[i][j] = NewSpot(Position{i, j})
+		}
+	}
 
 	// Create the pieces
-	var piece Piece = NewKing(White, Position{0, 4})
-	board.Pieces[0][4] = piece
+	var piece Piece
 
-	piece = NewKing(Black, Position{7, 4})
-	board.Pieces[7][4] = piece
+	board.Spots[0][4].Piece = NewKing(White)
 
-	piece = NewQueen(White, Position{0, 3})
-	board.Pieces[0][3] = piece
+	board.Spots[7][4].Piece = NewKing(Black)
 
-	piece = NewQueen(Black, Position{7, 3})
-	board.Pieces[7][3] = piece
+	board.Spots[0][3].Piece = NewQueen(White)
 
-	piece = NewRook(White, Position{0, 0})
-	board.Pieces[0][0] = piece
-	piece = NewRook(White, Position{0, 7})
-	board.Pieces[0][7] = piece
+	board.Spots[7][3].Piece = NewQueen(Black)
 
-	piece = NewRook(Black, Position{7, 0})
-	board.Pieces[7][0] = piece
-	piece = NewRook(Black, Position{7, 7})
-	board.Pieces[7][7] = piece
+	board.Spots[0][2].Piece = NewBishop(White)
 
-	piece = NewKnight(White, Position{0, 1})
-	board.Pieces[0][1] = piece
-	piece = NewKnight(White, Position{0, 6})
-	board.Pieces[0][6] = piece
+	board.Spots[0][5].Piece = NewBishop(White)
 
-	piece = NewKnight(Black, Position{7, 1})
-	board.Pieces[7][1] = piece
-	piece = NewKnight(Black, Position{7, 6})
-	board.Pieces[7][6] = piece
+	board.Spots[7][2].Piece = NewBishop(Black)
 
-	piece = NewBishop(White, Position{0, 2})
-	board.Pieces[0][2] = piece
-	piece = NewBishop(White, Position{0, 5})
-	board.Pieces[0][5] = piece
+	board.Spots[7][5].Piece = NewBishop(Black)
 
-	piece = NewBishop(Black, Position{7, 2})
-	board.Pieces[7][2] = piece
-	piece = NewBishop(Black, Position{7, 5})
-	board.Pieces[7][5] = piece
+	board.Spots[0][1].Piece = NewKnight(White)
+
+	board.Spots[0][6].Piece = NewKnight(White)
+
+	board.Spots[7][1].Piece = NewKnight(Black)
+
+	board.Spots[7][6].Piece = NewKnight(Black)
+
+	board.Spots[0][0].Piece = NewRook(White)
+
+	board.Spots[0][7].Piece = NewRook(White)
+
+	board.Spots[7][0].Piece = NewRook(Black)
+
+	board.Spots[7][7].Piece = NewRook(Black)
 
 	for i := 0; i < 8; i++ {
 		piece = NewPawn(White, Position{1, i})
-		board.Pieces[1][i] = piece
-	}
+		board.Spots[1][i].Piece = piece
 
-	for i := 0; i < 8; i++ {
 		piece = NewPawn(Black, Position{6, i})
-		board.Pieces[6][i] = piece
+		board.Spots[6][i].Piece = piece
 	}
-
 	return board
+}
+
+func (b *Board) SpotAt(p Position) *Spot {
+	return b.Spots[p.X][p.Y]
+}
+
+func (b *Board) GetPieceAt(p Position) Piece {
+	return b.SpotAt(p).Piece
+}
+
+func (b *Board) IsInCheck(color Color) bool {
+	// TODO: Implement
+	return false
+}
+
+func (b *Board) IsInCheckmate(color Color) bool {
+	// TODO: Implement
+	return false
+}
+
+func (b *Board) IsInStalemate(color Color) bool {
+	// TODO: Implement
+	return false
 }
 
 func (b *Board) String() string {
@@ -69,12 +90,7 @@ func (b *Board) String() string {
 	s = "\n+---+---+---+---+---+---+---+---+\n|"
 	for i := 0; i < 8; i++ {
 		for j := 0; j < 8; j++ {
-			if b.Pieces[i][j] == nil {
-				s += "   "
-			} else {
-				s += " " + b.Pieces[i][j].String() + " "
-			}
-			s += "|"
+			s += b.SpotAt(Position{i, j}).String() + "|"
 		}
 		s += "\n+---+---+---+---+---+---+---+---+\n"
 

@@ -12,7 +12,7 @@ func NewPosition(x, y int) *Position {
 	}
 }
 
-func (p *Position) isValid() bool {
+func (p *Position) IsValid() bool {
 	return p.X >= 0 && p.X < 8 && p.Y >= 0 && p.Y < 8
 }
 
